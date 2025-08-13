@@ -24,10 +24,9 @@
 		role: 'pending',
 		name: '',
 		email: '',
-		password: ''
+		password: '',
+		budget: ''
 	};
-
-	let userGroups: any[] | null = null;
 
 	const submitHandler = async () => {
 		const res = await updateUserById(localStorage.token, selectedUser.id, _user).catch((error) => {
@@ -52,9 +51,9 @@
 
 	onMount(() => {
 		if (selectedUser) {
-			_user = selectedUser;
+			_user = { ...selectedUser };
+			_user.budget = JSON.stringify(selectedUser.budget, null, 2);
 			_user.password = '';
-			loadUserGroups();
 		}
 	});
 </script>
@@ -178,6 +177,19 @@
 										bind:value={_user.password}
 										autocomplete="new-password"
 										required={false}
+									/>
+								</div>
+							</div>
+
+							div class="flex flex-col w-full">
+								<div class=" mb-1 text-xs text-gray-500">{$i18n.t('New Password')}</div>
+
+								<div class="flex-1">
+									<textarea
+										class="text-sm w-full bg-transparent outline-hidden resize-none"
+										rows="10"
+										placeholder="json editor"
+										bind:value={_user.budget}
 									/>
 								</div>
 							</div>

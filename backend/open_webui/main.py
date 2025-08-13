@@ -446,7 +446,7 @@ from open_webui.utils.chat import (
 )
 from open_webui.utils.embeddings import generate_embeddings
 from open_webui.utils.middleware import process_chat_payload, process_chat_response
-from open_webui.utils.access_control import has_access
+from open_webui.utils.access_control import has_access, limit_chats_by_budget
 
 from open_webui.utils.auth import (
     get_license_data,
@@ -1404,6 +1404,9 @@ async def chat_completion(
             request.state.direct = True
             request.state.model = model
 
+        if model and limit_chats_by_budget(user.id, model.get('id', 'unknown')):
+            raise Exception("Bạn đã hết số lượng tokens với model này. Vui lòng thử lại vào ngày mai. Xin cảm ơn!")
+
         model_info_params = (
             model_info.params.model_dump() if model_info and model_info.params else {}
         )
@@ -1833,6 +1836,7 @@ async def get_manifest_json():
             "start_url": "/",
             "display": "standalone",
             "background_color": "#343541",
+            "orientation": "any",
             "icons": [
                 {
                     "src": "/static/logo.png",

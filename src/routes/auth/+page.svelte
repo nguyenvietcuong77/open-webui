@@ -134,20 +134,6 @@
 
 		if (logo) {
 			const isDarkMode = document.documentElement.classList.contains('dark');
-
-			if (isDarkMode) {
-				const darkImage = new Image();
-				darkImage.src = `${WEBUI_BASE_URL}/static/favicon-dark.png`;
-
-				darkImage.onload = () => {
-					logo.src = `${WEBUI_BASE_URL}/static/favicon-dark.png`;
-					logo.style.filter = ''; // Ensure no inversion is applied if favicon-dark.png exists
-				};
-
-				darkImage.onerror = () => {
-					logo.style.filter = 'invert(1)'; // Invert image if favicon-dark.png is missing
-				};
-			}
 		}
 	}
 
@@ -199,9 +185,7 @@
 						<div
 							class="flex items-center justify-center gap-3 text-xl sm:text-2xl text-center font-semibold dark:text-gray-200"
 						>
-							<div>
-								{$i18n.t('Signing in to {{WEBUI_NAME}}', { WEBUI_NAME: $WEBUI_NAME })}
-							</div>
+							<img src="/static/logo.png" alt="Logo" id="logo" class="w-50" />
 
 							<div>
 								<Spinner className="size-5" />
@@ -229,29 +213,6 @@
 									submitHandler();
 								}}
 							>
-								<div class="mb-1">
-									<div class=" text-2xl font-medium">
-										{#if $config?.onboarding ?? false}
-											{$i18n.t(`Get started with {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
-										{:else if mode === 'ldap'}
-											{$i18n.t(`Sign in to {{WEBUI_NAME}} with LDAP`, { WEBUI_NAME: $WEBUI_NAME })}
-										{:else if mode === 'signin'}
-											{$i18n.t(`Sign in to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
-										{:else}
-											{$i18n.t(`Sign up to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
-										{/if}
-									</div>
-
-									{#if $config?.onboarding ?? false}
-										<div class="mt-1 text-xs font-medium text-gray-600 dark:text-gray-500">
-											ⓘ {$WEBUI_NAME}
-											{$i18n.t(
-												'does not make any external connections, and your data stays securely on your locally hosted server.'
-											)}
-										</div>
-									{/if}
-								</div>
-
 								{#if $config?.features.enable_login_form || $config?.features.enable_ldap}
 									<div class="flex flex-col mt-4">
 										{#if mode === 'signup'}
@@ -545,20 +506,18 @@
 			</div>
 		</div>
 
-		{#if !$config?.metadata?.auth_logo_position}
-			<div class="fixed m-10 z-50">
-				<div class="flex space-x-2">
-					<div class=" self-center">
-						<img
-							id="logo"
-							crossorigin="anonymous"
-							src="{WEBUI_BASE_URL}/static/favicon.png"
-							class=" w-6 rounded-full"
-							alt=""
-						/>
-					</div>
+		<div class="fixed m-10 z-50">
+			<div class="flex space-x-2">
+				<div class=" self-center">
+					<img
+						id="logo"
+						crossorigin="anonymous"
+						src="{WEBUI_BASE_URL}/static/favicon.png"
+						class=" w-6 rounded-full"
+						alt=""
+					/>
 				</div>
 			</div>
-		{/if}
+		</div>
 	{/if}
 </div>

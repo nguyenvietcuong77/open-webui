@@ -310,3 +310,7 @@ dist
 cypress/videos
 cypress/screenshots
 .vscode/settings.json
+backend/data
+backend/open_webui/data
+backend/open_webui/static
+.vscode/shortcuts.json
