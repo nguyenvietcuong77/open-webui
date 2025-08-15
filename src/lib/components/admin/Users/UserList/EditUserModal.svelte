@@ -181,7 +181,7 @@
 								</div>
 							</div>
 
-							div class="flex flex-col w-full">
+							<div class="flex flex-col w-full">
 								<div class=" mb-1 text-xs text-gray-500">{$i18n.t('New Password')}</div>
 
 								<div class="flex-1">
